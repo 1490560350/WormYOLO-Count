@@ -16,22 +16,15 @@ swin_large_patch4_window12_384_22k.pth from Swin backbone weights is required. Y
 
 4. Run the ‘segmentation.py’ file. A new folder will be automatically created within the "worm_data" folder, and the segmented images will be saved inside it.
 
-###Feature points extraction
-# Runtime environment
-The operating system is Windows 10, the installed memory (RAM) is 16GB, the processor is Intel(R) Core(TM) i7-7700HQ, and the CPU frequency is 2.80 GHz. The programming language is C++, the development environment is Visual Studio 2013.
-
+### Feature points extraction
 # Steps
 1. Place the preprocessed image set into the subfolder named "samples" within the "feature points extraction" folder.
-
 
 2. Double click to open ‘feature points extraction.sln’.
 
 3. Run the program and obtain the coordinates of the pharynx, inflection point, peak point, and skeletal point. These results are saved in the files below.
  
 ### Tracker
-# Runtime environment
-The operating system is Windows 10, the installed memory (RAM) is 16GB, the processor is Intel(R) Core(TM) i7-7700HQ, and the CPU frequency is 2.80 GHz. The programming language is Matlab, the development environment is Matlab R2021a.
-
 # Steps
 1. Please place the 5 ".csv" files obtained from the feature point detection algorithm into the "Tracker" folder.
 
