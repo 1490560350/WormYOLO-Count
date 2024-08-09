@@ -3,35 +3,32 @@ close all;
 clear all;
 
 trainPath = 'E:\data3\tierpsy-tracker\data\AVI_VIDEOS\1\AVI_VIDEOS_4\1_2\result\';
-% 读取所有数据
+
 HT = xlsread(fullfile(trainPath, 'analysis result', 'HeadTailReg.csv'));
 Ph = xlsread(fullfile(trainPath, 'analysis result', 'Pharynx.csv'));
 PP = xlsread(fullfile(trainPath, 'analysis result', 'PeakPoints.csv'));
 IP = xlsread(fullfile(trainPath, 'analysis result', 'InflectionPoints.csv'));
 SC = xlsread(fullfile(trainPath, 'analysis result', 'Center.csv'));
 
-% 获取每个文件的行号
 rowsToKeep = getValidRows(HT, Ph, PP, IP, SC);
 
-% 仅保留这些行
+
 HT = HT(rowsToKeep, :);
 Ph = Ph(rowsToKeep, :);
 PP = PP(rowsToKeep, :);
 IP = IP(rowsToKeep, :);
 SC = SC(rowsToKeep, :);
 
-% 输出哪些行被删除
 deletedRows = find(~rowsToKeep);
 if ~isempty(deletedRows)
     for i = 1:length(deletedRows)
-        fprintf('输入的文件中，存在某个文件第%d行缺失数据。其他文件的对应行的数据也被删除，剩余的数据不受影响。\n', deletedRows(i));
+        fprintf('Missing data in line %d of a file in the input file. The data in the corresponding lines of the other files is also deleted, the remaining data is not affected.\n', deletedRows(i));
     end
 end
 num = size(HT, 1);
-% 计算长度
+
 wlength = Lengthcalculation(SC);
 
-% Initialize arrays
 head = HT(:,1:2);
 headt = SC(:,41:42);
 tail = HT(:,3:4);
@@ -47,7 +44,7 @@ tailBendnum = 0;
 maxspeed = 0;
 Omega = 0;
 
-% 函数处理数据
+
 for k = 1:num
     [dists, hdists, tdists] = processData(PP(k, :), IP(k, :), pharynx(k, :), tail(k, :), tailh(k, :), head(k, :), headt(k, :), SC(k, :));
     
@@ -55,7 +52,7 @@ for k = 1:num
         [maxDistValue, index1] = max(abs(dists));
         maxDist(k) = dists(index1);
     end
-    % 计算 Omega
+
     if ~isempty(maxDist) && maxDist(k) > wlength / 5
         Omega = Omega + 1;
     end
@@ -77,17 +74,11 @@ end
 fprintf('Dist: the number of Head bends are %d\n', headBendnum);
 fprintf('Dist: the number of Body bends are %d\n', bodyBendnum);
 fprintf('Dist: the number of Tail bends are %d\n', tailBendnum);
-% Save maxDist and maxHDist to CSV files
-saveToCSV(fullfile(trainPath, 'analysis result', 'maxDistBody.csv'), maxDist);
-saveToCSV(fullfile(trainPath, 'analysis result', 'maxDistHead.csv'), maxHDist);
-saveToCSV(fullfile(trainPath, 'analysis result', 'maxDistTead.csv'), maxTDist);
-% Save features to CSV
+
 saveFeatures(fullfile(trainPath, 'analysis result', 'Features.csv'), wlength, bodyBendnum, headBendnum, tailBendnum, maxspeed, Omega);
 
-%% Function Definitions
-
 function rowsToKeep = getCommonRows(varargin)
-    % 计算所有输入数据中的有效行号
+
     numFiles = length(varargin);
     rowsToKeep = true(size(varargin{1}, 1), 1);
     for i = 1:numFiles
@@ -216,12 +207,8 @@ function [bendnum, maxspeed] = analyzebodyBends(distArray,   trainPath, bendnum,
                 end    
                 if sign(maxPositive) * sign(distArray(t)) == 1 && (positiveCount >= negativeCount)
                     bendnum = bendnum + 1;
-                 %     fprintf('Body bend detected in frame: %d\n', max1);
-                 %     saveBendResult(fullfile(trainPath, 'analysis result', 'bend.csv'), sprintf('Body bend detected in frame: %d', max1));
                 elseif sign(maxNegative) * sign(distArray(t)) == 1 && (negativeCount >= positiveCount)
                     bendnum = bendnum + 1;
-                  %    fprintf('Body bend detected in frame: %d\n', max2);
-                   %   saveBendResult(fullfile(trainPath, 'analysis result', 'bend.csv'),sprintf('Body bend detected in frame: %d', max2));
                 end
             end
             i = i + 1; 
@@ -295,12 +282,8 @@ function [bendnum] = analyzeHeadBends(distArray,   trainPath, bendnum, wlength)
             if i + 1 - t >= 2
                 if sign(maxPositive) * sign(distArray(t)) == 1 && (positiveCount >= negativeCount)
                     bendnum = bendnum + 1;
-                  %    fprintf('Head bend detected in frame: %d\n', max1);
-                   %   saveBendResult(fullfile(trainPath, 'analysis result', 'bend.csv'), sprintf('Head bend detected in frame: %d', max1));
                 elseif sign(maxNegative) * sign(distArray(t)) == 1 && (negativeCount >= positiveCount)
                     bendnum = bendnum + 1;
-                   %   fprintf('Head bend detected in frame: %d\n', max2);
-                    %  saveBendResult(fullfile(trainPath, 'analysis result', 'bend.csv'),sprintf('Head bend detected in frame: %d', max2));
                 end
             end
             i = i + 1; 
@@ -375,12 +358,8 @@ function [bendnum] = analyzeTailBends(distArray, trainPath, bendnum, wlength)
             if i + 1 - t >= 2
                 if sign(maxPositive) * sign(distArray(t)) == 1 && (positiveCount >= negativeCount)
                     bendnum = bendnum + 1;
-                   %   fprintf('Tail bend detected in frame: %d\n', max1);
-                    %  saveBendResult(fullfile(trainPath, 'analysis result', 'bend.csv'), sprintf('Tail bend detected in frame: %d', max1));
                 elseif sign(maxNegative) * sign(distArray(t)) == 1 && (negativeCount >= positiveCount)
                     bendnum = bendnum + 1;
-                    %  fprintf('Tail bend detected in frame: %d\n', max2);
-                    %  saveBendResult(fullfile(trainPath, 'analysis result', 'bend.csv'),sprintf('Tail bend detected in frame: %d', max2));
                 end
             end
             i = i + 1; 
@@ -388,16 +367,15 @@ function [bendnum] = analyzeTailBends(distArray, trainPath, bendnum, wlength)
     end
 end
 function rowsToKeep = getValidRows(varargin)
-    % 计算所有输入数据的共同有效行
+
     numFiles = length(varargin);
-    rowsToKeep = true(size(varargin{1}, 1), 1); % 初始化为所有行都保留
+    rowsToKeep = true(size(varargin{1}, 1), 1); 
     
     for i = 1:numFiles
         currentData = varargin{i};
-        % 找到当前数据中所有有效的行
+
         validRows = ~all(isnan(currentData), 2);
-        rowsToKeep = rowsToKeep & validRows; % 仅保留所有文件都有有效数据的行
-    end
+        rowsToKeep = rowsToKeep & validRows;
 end
 
 function saveBendResult(filepath, filename)
@@ -407,15 +385,15 @@ function saveBendResult(filepath, filename)
 end
 
 function saveToCSV(filePath, data)
-    % 将数据保存到CSV文件，并覆盖之前的内容
+
     writematrix(data', filePath);
 end
 
 function saveFeatures(filePath, wlength, bodyBendnum, headBendnum, tailBendnum, maxspeed, Omega)
-    % 特征名称和数据
+
     features = {'wrom_id', 'wlength', 'bodyBendnum', 'headBendnum', 'tailBendnum', 'maxspeed', 'Omega';
                 1, wlength, bodyBendnum, headBendnum, tailBendnum, maxspeed, Omega};
-    % 将特征数据保存到CSV文件，并覆盖之前的内容
+
     writecell(features, filePath, 'Delimiter', ',');
 end
 
