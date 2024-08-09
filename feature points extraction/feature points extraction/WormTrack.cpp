@@ -5,7 +5,6 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 void CalculateAngleSum(const string &Path, int j, seg &segment, Point &prevHead, Point &prevPharynx, Point &m_A, Point &m_B, bool switchht, double &angleSumHead, int partnum, float segmentLength);
-// 处理图像的函数声明
 void ProcessImage(int j, const string &Path, seg &segment, Point &prevHead, Point &prevPharynx, Point &m_A, Point &m_B, bool switchht, double &angleSumHead, int partnum, float segmentLength);
 WormTrack::WormTrack(string Path, Mat src, Mat src1, int filename, float m_sca, int m_guass, int m_thre, int m_mor, int m_partnum, Point m_A, Point m_B, seg* m_seg, bool& m_ht, float segmentLength)
 {
@@ -22,8 +21,6 @@ WormTrack::WormTrack(string Path, Mat src, Mat src1, int filename, float m_sca, 
 	A = m_A;
 	B = m_B;
 	ht = m_ht;
-	//ht = 0;
-	//std::cout << "ht的值是: " << ht << std::endl;
 	m_ht = false;
 
 	pre_head = m_seg->head;
@@ -600,12 +597,12 @@ void WormTrack::FindHeadTail(vector<Point>* input, vector<Point>& leftside, vect
 			Mat combined_img;
 			hconcat(Orignal_img_bgr, Post_img_bgr, combined_img);
 			
-			cout << "\n出现自闭行为，头尾有可能识别错误。左侧的红点为前一帧的头部，右侧的红点是当前帧的头部.请判断是否交换?是请输入“y”，否则输入“n” (y/n): ";
+			cout << "\nAutistic behaviour, head and tail may be misidentified. The red dot on the left is the head of the previous frame, and the red dot on the right is the head of the current frame. Please determine whether to swap them. If yes, please enter "y", otherwise enter "n" (y/n): ";
 			imshow("Combined Image", combined_img);
 
-			waitKey(0); // 等待用户按键以确保图像显示
+			waitKey(0); 
 			char response;
-			cin >> response; // 使用 cin 读取用户输入
+			cin >> response; 
 
 			if (response == 'y' || response == 'Y')
 			{
@@ -622,7 +619,7 @@ void WormTrack::FindHeadTail(vector<Point>* input, vector<Point>& leftside, vect
 			}
 
 			destroyWindow("Combined Image");
-			std::cout << "\n\n正在计算特征点中，请稍等..." << std::endl;
+			std::cout << "\n\nCalculating feature points, please wait..." << std::endl;
 		}
 		else
 		{
