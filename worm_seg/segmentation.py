@@ -8,7 +8,7 @@ def process_image(model, img_folder, output_folder, filename, confidence_thresho
 
     result = inference_detector(model, img_path)
     masks = result[1][0][:num_targets]
-    scores = result[0][0][:num_targets, 4] if result[0][0].shape[1] > 4 else np.ones(len(masks))  # 如果没有得分列，默认值为1
+    scores = result[0][0][:num_targets, 4] if result[0][0].shape[1] > 4 else np.ones(len(masks))  
     print(f"Processed document: {filename}")
 
     target_index = 0
@@ -34,13 +34,13 @@ def run_test_script(batch_size=10, num_targets=5):
 
     config_file = 'config_wormswin_mmdetection-csb.py'
 
-    checkpoint_file = 'synthetic_csb-1_epoch_36.pth'
+    checkpoint_file = 'multi_worm.pth'
 
 
     model = init_detector(config_file, checkpoint_file)
 
 
-    img_folder = os.path.join(os.path.dirname(__file__), 'worm_data')  # 当前目录下的worm_data文件夹
+    img_folder = os.path.join(os.path.dirname(__file__), 'worm_data') 
     if not os.path.exists(img_folder):
         raise FileNotFoundError(f"The folder {img_folder} does not exist")
 
