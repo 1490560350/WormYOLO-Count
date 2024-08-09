@@ -16,7 +16,6 @@
 using namespace cv;
 using namespace std;
 
-// 函数声明
 int RefineCurvature(seg* segment, vector<Point>& cur);
 int DrawImage(seg& segment, Mat& I, int partnum, vector<Point> cur);
 int CurvatureAnalysis(vector<double>* curvature, vector<Point>& cur);
@@ -26,8 +25,6 @@ int FindPerpPoint(vector<Point>* input, Point x, Point target, Point &result, in
 void Smooth1DSequence(const vector<double>* input, vector<double>& output, double sigma);
 
 
-
-// 处理图像的函数
 Point m_A = Point(0, 0);
 Point m_B = Point(640, 480);
 Point head = Point(0, 0);
@@ -52,7 +49,7 @@ double calculateAngleDifference(Point p1, Point p2, Point q1, Point q2) {
 	double magnitude1 = sqrt(vector1_x * vector1_x + vector1_y * vector1_y);
 	double magnitude2 = sqrt(vector2_x * vector2_x + vector2_y * vector2_y);
 	double angleDifference = atan2(crossProduct, dotProduct);
-	//std::cout << "aangleDifference的值是: " << abs(angleDifference) << std::endl;
+
 	return abs(angleDifference);
 
 }
@@ -86,9 +83,6 @@ void ProcessImage(int j, const string &Path, seg &segment, Point &prevHead, Poin
 	segmentLength = totaLength / j;
 
 	
-	//std::cout << "头坐标 (prevHead): (" << prevHead.x << ", " << prevHead.y << ")" << std::endl;
-	//std::cout << "咽坐标 (Pharynx): (" << segment.center[12].x << ", " << segment.center[12].y << ")" << std::endl;
-	//std::cout << "咽坐标 (prePharynx): (" << prevPharynx.x << ", " << prevPharynx.y << ")" << std::endl;
 	double angleDifferenceHead = calculateAngleDifference(segment.head, segment.center[12], prevHead, prevPharynx);
 	angleSumHead += angleDifferenceHead;
 	angleDifferenceHead = 0.0;
@@ -140,7 +134,7 @@ int main() {
 	for (int j = 1; j <= FileNum / 10; ++j) {
 		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, 0, angleSumHead, partnum, segmentLength);
 	}
-	std::cout << "angleSumHead的值是: " << angleSumHead << std::endl;
+
 	double  angleDifferenceHead = 0.0;
 	m_A = Point(0, 0);
 	m_B = Point(640, 480);
@@ -154,7 +148,7 @@ int main() {
 	for (int j = 1; j <= FileNum / 10; ++j) {
 		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, 1, angleSumHead1, partnum, segmentLength);
 	}
-	std::cout << "angleSumHead1的值是: " << angleSumHead1 << std::endl;
+
 	bool switchht = (angleSumHead > angleSumHead1) ? 0 : 1;
 	std::cout << "switchht: " << switchht << std::endl;
 	totaLength = 0;
@@ -168,7 +162,7 @@ int main() {
 		bool currentSwitchht = (j == 1 && switchht == 1) ? 1 : 0;
 		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, 0, angleSumHead, partnum, segmentLength);
 		prevHead = segment.head;
-		std::cout << "平均长度: " << segmentLength << std::endl;
+
 		Mat I_color = imread(Path + to_string(j) + ".png", 1);
 		vector<Point> cur;
 		RefineCurvature(&segment, cur);
