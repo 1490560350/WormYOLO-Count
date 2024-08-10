@@ -1,0 +1,115 @@
+﻿生成启动时间为 2024/8/10 22:23:54。
+     1>项目“E:\Tenorshare\feature points extraction\feature points extraction\feature points extraction.vcxproj”在节点 2 上(Build 个目标)。
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (.\tmp\) contains files shared from another project (特定feature points extraction.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>ClCompile:
+         D:\VisualStudio2013\VisualStudio2013\VC\bin\CL.exe /c /Iinc /Iinc\opencv /Iinc\opencv2 /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp".\tmp\feature points extraction.pch" /Fo".\tmp\\" /Fd".\tmp\vc120.pdb" /FR".\tmp\\" /Gd /TP /analyze- /errorReport:prompt WormTrack.cpp "feature points extraction.cpp"
+         WormTrack.cpp
+     1>E:\Tenorshare\feature points extraction\feature points extraction\inc\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\Tenorshare\feature points extraction\feature points extraction\inc\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\Tenorshare\feature points extraction\feature points extraction\inc\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>WormTrack.cpp(69): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(156): warning C4305: “参数”: 从“double”到“float”截断
+     1>WormTrack.cpp(164): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(165): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(169): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(170): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(175): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(176): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(180): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(181): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(182): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(183): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(186): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(187): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(188): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(189): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(190): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(195): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(230): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(253): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(254): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(271): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(272): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(286): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(290): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(295): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(296): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(324): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(342): warning C4018: “>”: 有符号/无符号不匹配
+     1>WormTrack.cpp(376): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(407): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(408): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(450): warning C4018: “>”: 有符号/无符号不匹配
+     1>WormTrack.cpp(543): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(562): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+     1>WormTrack.cpp(518): warning C4101: “pt_fa_s”: 未引用的局部变量
+     1>WormTrack.cpp(518): warning C4101: “pt_ba_s”: 未引用的局部变量
+     1>WormTrack.cpp(729): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(745): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(797): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(802): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+     1>WormTrack.cpp(818): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(821): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(843): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(846): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(883): warning C4018: “<=”: 有符号/无符号不匹配
+     1>WormTrack.cpp(884): warning C4018: “<=”: 有符号/无符号不匹配
+     1>WormTrack.cpp(950): warning C4018: “<”: 有符号/无符号不匹配
+     1>WormTrack.cpp(958): warning C4018: “<”: 有符号/无符号不匹配
+         feature points extraction.cpp
+     1>E:\Tenorshare\feature points extraction\feature points extraction\inc\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\Tenorshare\feature points extraction\feature points extraction\inc\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\Tenorshare\feature points extraction\feature points extraction\inc\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>feature points extraction.cpp(72): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>feature points extraction.cpp(155): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+     1>feature points extraction.cpp(218): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(323): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+     1>feature points extraction.cpp(327): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(329): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(338): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(344): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(352): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(358): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(365): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+     1>feature points extraction.cpp(389): warning C4018: “<=”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(390): warning C4018: “<=”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(455): warning C4305: “初始化”: 从“double”到“float”截断
+     1>feature points extraction.cpp(461): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+     1>feature points extraction.cpp(461): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(474): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(485): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(487): warning C4018: “>”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(522): warning C4018: “>”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(598): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(604): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(618): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(635): warning C4018: “>”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(650): warning C4018: “>”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(663): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(667): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(671): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(678): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(680): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(745): warning C4305: “初始化”: 从“double”到“float”截断
+     1>feature points extraction.cpp(754): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(759): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(764): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(853): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(857): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(872): warning C4018: “<”: 有符号/无符号不匹配
+     1>feature points extraction.cpp(891): warning C4305: “初始化”: 从“double”到“float”截断
+         正在生成代码...
+       Link:
+         D:\VisualStudio2013\VisualStudio2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Tenorshare\feature points extraction\feature points extraction\\bin\feature points extraction.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:libs /LIBPATH:libs\opencv\x86\vc12 opencv_world300.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Tenorshare\feature points extraction\feature points extraction\\bin\feature points extraction.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Tenorshare\feature points extraction\feature points extraction\\bin\feature points extraction.lib" /MACHINE:X86 /SAFESEH .\tmp\stdafx.obj
+         .\tmp\Timer.obj
+         ".\tmp\feature points extraction.obj"
+         .\tmp\WormTrack.obj
+         feature points extraction.vcxproj -> E:\Tenorshare\feature points extraction\feature points extraction\\bin\feature points extraction.exe
+       BscMake:
+         D:\VisualStudio2013\VisualStudio2013\VC\bin\bscmake.exe /nologo /o".\tmp\feature points extraction.bsc" /n .\tmp\stdafx.sbr .\tmp\Timer.sbr ".\tmp\feature points extraction.sbr" .\tmp\WormTrack.sbr
+     1>已完成生成项目“E:\Tenorshare\feature points extraction\feature points extraction\feature points extraction.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:08.13
