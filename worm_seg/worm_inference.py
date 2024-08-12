@@ -28,8 +28,6 @@ data = dict(
     workers_per_gpu=2,
     test=dict(
         type='CocoDataset',
-        img_prefix=r'md_dataset/images',
-        ann_file=r'md_dataset/test_annotations.json',
         classes=('worm', ),
         pipeline=test_pipeline)
 )
