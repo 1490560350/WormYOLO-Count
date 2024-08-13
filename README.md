@@ -26,7 +26,7 @@ swin_large_patch4_window12_384_22k.pth from Swin backbone weights is required. Y
 
 # Tracker
 ### Steps
-1. Please place the 5 ".csv" files obtained from the feature point detection algorithm into the "Tracker" folder.
+1. Please place the 5 ".csv" files obtained from the feature point detection algorithm into the "Feature_point" subfolder within the "Tracker" folder.
 
 2. Open the program using Matlab R2021a, run ‘Tracker_ Feature.p’, and obtain the experimental results.
 
