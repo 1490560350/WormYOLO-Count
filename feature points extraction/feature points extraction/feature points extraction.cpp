@@ -128,7 +128,7 @@ int main() {
 	std::ofstream file1(LoadPath + "PeakPoints.csv");
 	std::ofstream file2(LoadPath + "InflectionPoints.csv");
 	std::ofstream file3(LoadPath + "HeadTailReg.csv");
-	std::ofstream file4(LoadPath + "SkeletalPoint.csv");
+	std::ofstream file4(LoadPath + "SkeletonPoints.csv");
 	vector<std::string> files;
 	int FileNum = GetFileNum(Path, ".png");
 
