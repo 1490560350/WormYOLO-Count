@@ -3,23 +3,24 @@
 ### Steps
 
 1. Clone the repository:
-   `git clone https://github.com/1490560350/WormYOLO-Count.git`
+   `git clone https://github.com/1490560350/WormYOLO-Count.git`  # Clone the WormYOLO-Count repository
 
 2. Setup environments:
 
-   `cd WormYOLO-Count/WormYOLO`
+   `cd WormYOLO-Count/WormYOLO`  # Navigate to the WormYOLO directory
    
-   `conda create -n wormyolo`
+   `conda create -n wormyolo`  # Create a Conda environment named wormyolo
    
-   `pip install -e .`
+   `pip install -e .`  # Install WormYOLO in editable mode
 
 4. Running the tracker after cloning the WormYOLO repository:
    
-   `python train.py`
+   `python train.py`  # Run the training script; you can configure the dataset and whether to load pretrained weights in the `train.py` file.
    
-   `python prediction.py`
+   `python prediction.py`  # Run the prediction script
    
-   `python tracking.py`
+   `python tracking.py`  # Run the tracking script
+
 
 # Feature points extraction
 ### Steps
