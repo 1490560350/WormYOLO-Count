@@ -3,8 +3,8 @@ warnings.filterwarnings('ignore')
 from ultralytics import YOLO
 
 if __name__ == '__main__':
-    model = YOLO('/root/projects/ultralytics-mainup/runs/segment/exp25/weights/best.pt')
-    results=model.val(data=r'coco8-seg-synthetic.yaml',
+    model = YOLO('best.pt')
+    results=model.val(data=r'CSB-1.yaml',
               split='val',
               imgsz=912,
               batch=12,
@@ -22,13 +22,6 @@ if __name__ == '__main__':
     print(f"mask-mAP75: {results.seg.map75}")  # map75
     print(f"mask-mAP50-95: {results.seg.map}") # map50-95
     
-    print(f"dsb_mask-mAP50: {results.seg_dsb.map50}")  # map50
-    #print(f"dsb_mask-mAP60: {results.seg_dsb.map60}")  # map75
-    print(f"dsb_mask-mAP70: {results.seg_dsb.map70}") # map50-95
-    print(f"dsb_mask-mAP75: {results.seg_dsb.map75}")  # map75
-    print(f"dsb_mask-mAP80: {results.seg_dsb.map75}")  # map75
-    print(f"dsb_mask-mAP90: {results.seg_dsb.map75}")  # map75
-    print(f"dsb_mask-mAP50-95: {results.seg_dsb.map}") # map50-95
     speed_results = results.speed
     total_time = sum(speed_results.values())
     fps = 1000 / total_time
