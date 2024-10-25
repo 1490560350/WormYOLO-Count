@@ -1,11 +1,11 @@
 # WormYOLO(Image segmentation algorithm)
 ![描述](WormYOLO/examples/Figure1.tif)
 ### Steps
-```markdown
+
 1.Clone the repository:
-```bash
+   ```markdown
    https://github.com/1490560350/WormYOLO-Count.git
-   
+   ```bash
 2. Setup environments:
    
    cd WormYOLO-Count/WormYOLO
