@@ -11,7 +11,7 @@
    
    `conda create -n wormyolo`  # Create a Conda environment named wormyolo
    
-   `pip install -e .`  # Install WormYOLO in editable mode
+   `pip install -e.`  # Install WormYOLO in editable mode
 
 4. Running the tracker after cloning the WormYOLO repository:
    
