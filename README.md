@@ -1,6 +1,8 @@
 # WormYOLO(Image segmentation algorithm)
-![Tracking results](WormYOLO/examples/tracking.gif)
-![Segmentation results](WormYOLO/examples/segmenting.gif)
+<p align="center">
+  <img src="WormYOLO/examples/tracking.gif" alt="Tracking results" width="45%" />
+  <img src="WormYOLO/examples/segmenting.gif" alt="Segmentation results" width="45%" />
+</p>
 ### Steps
 
 1. Clone the repository:
