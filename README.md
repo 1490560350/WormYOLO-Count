@@ -1,5 +1,6 @@
 # WormYOLO(Image segmentation algorithm)
-![描述](WormYOLO/examples/Figure1.tif)
+![Tracking results](WormYOLO/examples/tracking.gif)
+![Segmentation results](WormYOLO/examples/segmenting.gif)
 ### Steps
 
 1. Clone the repository:
