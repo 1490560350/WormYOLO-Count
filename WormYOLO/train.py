@@ -3,77 +3,73 @@ warnings.filterwarnings('ignore')
 from ultralytics import YOLO
 
 if __name__ == '__main__':
-    model = YOLO('/root/projects/ultralytics-mainup/ultralytics/cfg/models/Add/yolov8-ReNLANRepLKBlock-SDI-ASFYOLO-gai.yaml').load('/root/projects/ultralytics-mainup/runs/segment/exp25/weights/best.pt')
-    #.load('/root/projects/yolo-change/runs/train/exp18/weights/best.pt')
-    #projects/ultralytics-main11/ultralytics/cfg/models/Add/yolov11-ReNLANRep-SDI-ASFYOLO.yaml
-    #projects/ultralytics-mainup/ultralytics/cfg/models/Add/yolov11-ReNLANRep-SDI-ASFYOLO.yaml
-    #projects/ultralytics-mainup/ultralytics/cfg/models/Add/yolov11-ReNLANRep-SDI-ASFYOLO-DWRSeg.yaml
-    # 如何切换模型版本, 上面的ymal文件可以改为 yolov8s.yaml就是使用的v8s,
-    # 类似某个改进的yaml文件名称为yolov8-XXX.yaml那么如果想使用其它版本就把上面的名称改为yolov8l-XXX.yaml即可（改的是上面YOLO中间的名字不是配置文件的）！
+    
+    model = YOLO('ultralytics/cfg/models/v8/yolov8-wormyolo.yaml')
+    ##Loading pre-trained models, and need to configure the path correctly.
+    #model = YOLO('ultralytics/cfg/models/v8/yolov8-wormyolo.yaml').load('best.pt')
 
-    # model.load('yolov8n.pt') # 是否加载预训练权重,科研不建议大家加载否则很难提升精度
-
-    model.train(
-                data=r'coco8-seg.yaml',
-                #coco8-seg-synthetic
-                epochs=800, # (int) 训练的周期数
-                patience=1000,# (int) 等待无明显改善以进行早期停止的周期数
-                batch=16, #(int) 每批次的图像数量（-1 为自动批处理）
-                imgsz=912, # (int) 输入图像的大小，整数或w，h
-                save=True,  # (bool) 保存训练检查点和预测结果
-                save_period=-1,  # (int) 每x周期保存检查点（如果小于1则禁用）
-                cache=False,  # (bool) True/ram、磁盘或False。使用缓存加载数据
-                device=0,  # (int | str | list, optional) 运行的设备，例如 cuda device=0 或 device=0,1,2,3 或 device=cpu
-                workers=12,  # (int) 数据加载的工作线程数（每个DDP进程）
-                #project='runs/train',  # (str, optional) 项目名称
-                name='exp',  # (str, optional) 实验名称，结果保存在'project/name'目录下
-                exist_ok=False,  # (bool) 是否覆盖现有实验
-                pretrained=False,  # (bool | str) 是否使用预训练模型（bool），或从中加载权重的模型（str）
-                optimizer='Adam',  # (str) 要使用的优化器，选择=[SGD，Adam，Adamax，AdamW，NAdam，RAdam，RMSProp，auto]
-                verbose=True,  # (bool) 是否打印详细输出
-                seed=0,  # (int) 用于可重复性的随机种子
-                deterministic=True,  # (bool) 是否启用确定性模式
-                single_cls=False,  # (bool) 将多类数据训练为单类
-                rect=False,  # (bool) 如果mode='train'，则进行矩形训练，如果mode='val'，则进行矩形验证
-                cos_lr=True,  # (bool) 使用余弦学习率调度器
-                close_mosaic=0,  # (int) 在最后几个周期禁用马赛克增强
-                resume=True,  # (bool) 从上一个检查点恢复训练
-                amp=True,  # (bool) 自动混合精度（AMP）训练，选择=[True, False]，True运行AMP检查
-                fraction=1.0,  # (float) 要训练的数据集分数（默认为1.0，训练集中的所有图像）
-                profile=False,  # (bool) 在训练期间为记录器启用ONNX和TensorRT速度
-                freeze= None,  # (int | list, 可选) 在训练期间冻结前 n 层，或冻结层索引列表。
-                # 分割
-                overlap_mask=True,  # (bool) 训练期间是否应重叠掩码（仅适用于分割训练）
-                mask_ratio=4,  # (int) 掩码降采样比例（仅适用于分割训练）
-                # 分类
-                dropout=0.0,  # (float) 使用丢弃正则化（仅适用于分类训练）
-                # 超参数 ----------------------------------------------------------------------------------------------
-                lr0=1E-3,  # (float) 初始学习率（例如，SGD=1E-2，Adam=1E-3）
-                lrf=0.01,  # (float) 最终学习率（lr0 * lrf）
-                momentum=0.937,  # (float) SGD动量/Adam beta1
-                weight_decay=0.0005,  # (float) 优化器权重衰减 5e-4
-                warmup_epochs=3.0,  # (float) 预热周期（分数可用）
-                warmup_momentum=0.8,  # (float) 预热初始动量
-                warmup_bias_lr=0.1,  # (float) 预热初始偏置学习率
-                box=7.5,  # (float) 盒损失增益
-                cls=0.5,  # (float) 类别损失增益（与像素比例）
-                dfl=1.5,  # (float) dfl损失增益
-                pose=12.0,  # (float) 姿势损失增益
-                kobj=1.0,  # (float) 关键点对象损失增益
-                label_smoothing=0.0,  # (float) 标签平滑（分数）
-                nbs=64,  # (int) 名义批量大小
-                hsv_h=0.015,  # (float) 图像HSV-Hue增强（分数）
-                hsv_s=0.7,  # (float) 图像HSV-Saturation增强（分数）
-                hsv_v=0.4,  # (float) 图像HSV-Value增强（分数）
-                degrees=0.0,  # (float) 图像旋转（+/- deg）
-                translate=0.1,  # (float) 图像平移（+/- 分数）
-                scale=0.5,  # (float) 图像缩放（+/- 增益）
-                shear=0.0,  # (float) 图像剪切（+/- deg）
-                perspective=0.0,  # (float) 图像透视（+/- 分数），范围为0-0.001
-                flipud=0.0,  # (float) 图像上下翻转（概率）
-                fliplr=0.5,  # (float) 图像左右翻转（概率）
-                mosaic=1.0,  # (float) 图像马赛克（概率）
-                mixup=0.0,  # (float) 图像混合（概率）
-                copy_paste=0.0,  # (float) 分割复制-粘贴（概率）
-                #auto_augment='autoaugment'  
-    )
+model.train(
+    data=r'CSB-1.yaml',
+    epochs=150,  # (int) Number of training epochs
+    patience=-1,  # (int) Number of epochs to wait for early stopping without improvement
+    batch=16,  # (int) Number of images per batch (-1 for auto batching)
+    imgsz=912,  # (int) Size of input images, integer or w,h
+    save=True,  # (bool) Save training checkpoints and prediction results
+    save_period=-1,  # (int) Save checkpoint every x epochs (disable if less than 1)
+    cache=False,  # (bool) True/ram, disk, or False. Use cache to load data
+    device=0,  # (int | str | list, optional) Device to run on, e.g., cuda device=0 or device=0,1,2,3 or device=cpu
+    workers=12,  # (int) Number of worker threads for data loading (per DDP process)
+    project='runs/train',  # (str, optional) Project name
+    name='exp',  # (str, optional) Experiment name, results saved in 'project/name' directory
+    exist_ok=False,  # (bool) Overwrite existing experiment if True
+    pretrained=False,  # (bool | str) Use pretrained model (bool), or load weights from model (str)
+    optimizer='Adam',  # (str) Optimizer to use, choices=[SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, auto]
+    verbose=True,  # (bool) Print detailed output if True
+    seed=0,  # (int) Random seed for reproducibility
+    deterministic=True,  # (bool) Enable deterministic mode if True
+    single_cls=False,  # (bool) Train multi-class data as a single class
+    rect=False,  # (bool) Rectangular training if mode='train', rectangular validation if mode='val'
+    cos_lr=True,  # (bool) Use cosine learning rate scheduler
+    close_mosaic=0,  # (int) Disable mosaic augmentation for the last few epochs
+    resume=True,  # (bool) Resume training from the last checkpoint
+    amp=True,  # (bool) Automatic Mixed Precision (AMP) training, choose=[True, False], True runs AMP check
+    fraction=1.0,  # (float) Fraction of the dataset to train on (default is 1.0, all images in training set)
+    profile=False,  # (bool) Enable ONNX and TensorRT speed profiling during training
+    freeze=None,  # (int | list, optional) Freeze the first n layers or list of layer indices during training
+    # Segmentation
+    overlap_mask=True,  # (bool) Should masks overlap during training (segmentation training only)
+    mask_ratio=4,  # (int) Mask downsampling ratio (segmentation training only)
+    # Classification
+    dropout=0.0,  # (float) Apply dropout regularization (classification training only)
+    # Hyperparameters ----------------------------------------------------------------------------------------------
+    lr0=1E-3,  # (float) Initial learning rate (e.g., SGD=1E-2, Adam=1E-3)
+    lrf=0.01,  # (float) Final learning rate (lr0 * lrf)
+    momentum=0.937,  # (float) SGD momentum / Adam beta1
+    weight_decay=0.0005,  # (float) Optimizer weight decay 5e-4
+    warmup_epochs=3.0,  # (float) Warm-up epochs (fractional values allowed)
+    warmup_momentum=0.8,  # (float) Initial momentum during warm-up
+    warmup_bias_lr=0.1,  # (float) Initial bias learning rate during warm-up
+    box=7.5,  # (float) Box loss gain
+    cls=0.5,  # (float) Class loss gain (relative to pixel size)
+    dfl=1.5,  # (float) Distribution Focal Loss (DFL) gain
+    pose=12.0,  # (float) Pose loss gain
+    kobj=1.0,  # (float) Keypoint object loss gain
+    label_smoothing=0.0,  # (float) Label smoothing (fractional values)
+    nbs=64,  # (int) Nominal batch size
+    hsv_h=0.015,  # (float) Image HSV-Hue augmentation (fractional values)
+    hsv_s=0.7,  # (float) Image HSV-Saturation augmentation (fractional values)
+    hsv_v=0.4,  # (float) Image HSV-Value augmentation (fractional values)
+    degrees=0.0,  # (float) Image rotation (+/- degrees)
+    translate=0.1,  # (float) Image translation (+/- fraction)
+    scale=0.5,  # (float) Image scaling (+/- gain)
+    shear=0.0,  # (float) Image shearing (+/- degrees)
+    perspective=0.0,  # (float) Image perspective (+/- fraction), range 0-0.001
+    flipud=0.0,  # (float) Image vertical flip (probability)
+    fliplr=0.5,  # (float) Image horizontal flip (probability)
+    mosaic=1.0,  # (float) Image mosaic (probability)
+    mixup=0.0,  # (float) Image mixup (probability)
+    copy_paste=0.0,  # (float) Segmentation copy-paste (probability)
+    auto_augment='randaugment',  # (str) Auto augmentation policy for classification (randaugment, autoaugment, augmix)
+    erasing=0.4,  # (float) Probability of random erasing during classification training (0-0.9), 0 means no erasing, must be less than 1.0
+    crop_fraction=1.0  # (float) Image crop fraction for classification (0.1-1), 1.0 means no crop, must be greater than 0
+)
