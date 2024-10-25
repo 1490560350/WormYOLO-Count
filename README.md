@@ -4,11 +4,12 @@
 
 1.Clone the repository:
    https://github.com/1490560350/WormYOLO-Count.git
-2. Setup environments:
    
+2. Setup environments:
    cd WormYOLO-Count/WormYOLO
    conda create -n wormyolo
    pip install -e.
+   
 3. Running the tracker after cloning the WormYOLO repository:
    python train.py
    python prediction.py
