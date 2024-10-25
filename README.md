@@ -1,4 +1,5 @@
 # WormYOLO(Image segmentation algorithm)
+![描述](WormYOLO/examples/Figure1.tif)
 ### Steps
 
 1.Place the images to be processed into the subfolder "worm_data" within the "worm_seg" folder.
