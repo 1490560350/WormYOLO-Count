@@ -1,5 +1,5 @@
 # WormYOLO(Image segmentation algorithm)
-<img src="WormYOLO/examples/segmenting.gif" alt="Segmentation results" width="50%">
+ <img src="WormYOLO/examples/segmenting.gif" alt="Segmentation results" width="45%" />
 
 ### 
 
