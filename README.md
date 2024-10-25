@@ -1,5 +1,5 @@
 # WormYOLO(Image segmentation algorithm)
-![Segmentation results](WormYOLO/examples/segmenting.gif)
+<img src="WormYOLO/examples/segmenting.gif" alt="Segmentation results" width="50%">
 
 ### 
 
