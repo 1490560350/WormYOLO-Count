@@ -1,7 +1,6 @@
 # WormYOLO(Image segmentation algorithm)
 ![描述](WormYOLO/examples/Figure1.tif)
 ### Steps
-
 1.Clone the repository:
    https://github.com/1490560350/WormYOLO-Count.git
    
