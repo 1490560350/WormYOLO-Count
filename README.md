@@ -18,7 +18,7 @@ swin_large_patch4_window12_384_22k.pth from Swin backbone weights is required. Y
 
 3. Run the program and obtain the coordinates of the pharynx, inflection point, peak point, and skeletal point. These results are saved in the files below.
 
-# Tracker
+# Count
 ### Steps
 1. Please place the 5 ".csv" files obtained from the feature point detection algorithm into the "Feature_point" subfolder within the "Tracker" folder.
 
