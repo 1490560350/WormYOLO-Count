@@ -2,20 +2,25 @@
 ![描述](WormYOLO/examples/Figure1.tif)
 ### Steps
 
-1.Clone the repository:
-   ```markdown
-   https://github.com/1490560350/WormYOLO-Count.git
-   ```bash
+1. Clone the repository:
+   `git clone https://github.com/1490560350/WormYOLO-Count.git`
+
 2. Setup environments:
+
+   `cd WormYOLO-Count/WormYOLO`
    
-   cd WormYOLO-Count/WormYOLO
-   conda create -n wormyolo
-   pip install -e.
+   `conda create -n wormyolo`
    
+   `pip install -e .`
+
 4. Running the tracker after cloning the WormYOLO repository:
-   python train.py
-   python prediction.py
-   python tracking.py
+   
+   `python train.py`
+   
+   `python prediction.py`
+   
+   `python tracking.py`
+
 # Feature points extraction
 ### Steps
 1. Place the preprocessed image set into the subfolder named "samples" within the "feature points extraction" folder.
