@@ -2,15 +2,28 @@
 ![描述](WormYOLO/examples/Figure1.tif)
 ### Steps
 
-1.Place the images to be processed into the subfolder "worm_data" within the "worm_seg" folder.
+1.Clone the repository:
+   https://github.com/1490560350/WormYOLO-Count.git
 
-2. Obtain the necessary model weight files. 
-swin_large_patch4_window12_384_22k.pth from Swin backbone weights is required. You can choose between mate_worm.pth and multi_worm.pth, where mate_worm.pth is more suitable for mating scenarios and multi_worm.pth for general multi-worm scenarios. Weights are available from 'https://zenodo.org/records/13234171'.
-
-3. Place the required weight files into the "worm_seg" folder and then place the "worm_seg" folder into the root directory of the installed mmdetection.
-
-4. Run the ‘segmentation.py’ file. A new folder will be automatically created within the "worm_data" folder, and the segmented images will be saved inside it.
-
+2. Setup environments:
+   #for running the Deep-Worm-Tracker using pretrained model weights (Quick start)
+   cd WormYOLO-Count/WormYOLO
+   conda create -n wormyolo
+   pip install -e.
+   
+   #for training yolo model
+   cd yolov5
+   conda create -n yolo
+   pip install -r requirements.txt
+   
+   #for training torchreid model
+   cd strong_sort
+   conda create -n torchreid
+   pip install -r requirements.txt
+3. Running the tracker after cloning the WormYOLO repository:
+   python train.py
+   python prediction.py
+   python tracking.py
 # Feature points extraction
 ### Steps
 1. Place the preprocessed image set into the subfolder named "samples" within the "feature points extraction" folder.
