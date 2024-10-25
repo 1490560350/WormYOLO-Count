@@ -6,20 +6,11 @@
    https://github.com/1490560350/WormYOLO-Count.git
 
 2. Setup environments:
-   #for running the Deep-Worm-Tracker using pretrained model weights (Quick start)
+   
    cd WormYOLO-Count/WormYOLO
    conda create -n wormyolo
    pip install -e.
-   
-   #for training yolo model
-   cd yolov5
-   conda create -n yolo
-   pip install -r requirements.txt
-   
-   #for training torchreid model
-   cd strong_sort
-   conda create -n torchreid
-   pip install -r requirements.txt
+
 3. Running the tracker after cloning the WormYOLO repository:
    python train.py
    python prediction.py
