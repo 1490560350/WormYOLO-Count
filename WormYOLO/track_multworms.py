@@ -132,6 +132,6 @@ while cap.isOpened():
 
 cap.release()
 all_masks_writer.release()
-cv2.destroyAllWindows()
+
 
 logging.info(f"追踪结果已保存到 {main_output_dir} 目录下")
