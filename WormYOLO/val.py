@@ -3,13 +3,12 @@ warnings.filterwarnings('ignore')
 from ultralytics import YOLO
 
 if __name__ == '__main__':
-    model = YOLO('best.pt')
-    results=model.val(data=r'CSB-1.yaml',
+    model = YOLO('weight/synthetic.pt')
+    results=model.val(
+              data='ultralytics/cfg/datasets/data.yaml',
               split='val',
               imgsz=912,
-              batch=12,
-              # rect=False,
-              # save_json=True, # 这个保存coco精度指标的开关
+              batch=8,
               project='runs/val',
               name='exp',
               )
@@ -24,5 +23,5 @@ if __name__ == '__main__':
     
     speed_results = results.speed
     total_time = sum(speed_results.values())
-    fps = 1000 / total_time
+    fps = 1000 / total_time #
     print(f"FPS: {fps}") # FPS
