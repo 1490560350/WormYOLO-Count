@@ -16,7 +16,7 @@
 using namespace cv;
 using namespace std;
 
-// º¯ÊýÉùÃ÷
+
 int RefineCurvature(seg* segment, vector<Point>& cur);
 int DrawImage(seg& segment, Mat& I, int partnum, vector<Point> cur);
 int CurvatureAnalysis(vector<double>* curvature, vector<Point>& cur);
@@ -26,19 +26,20 @@ int FindPerpPoint(vector<Point>* input, Point x, Point target, Point &result, in
 void Smooth1DSequence(const vector<double>* input, vector<double>& output, double sigma);
 
 
-
-// ´¦ÀíÍ¼ÏñµÄº¯Êý
 Point m_A = Point(0, 0);
-Point m_B = Point(640, 480);
+Point m_B = Point(0, 0); 
 Point head = Point(0, 0);
 Point tail = Point(0, 0);
 float totaLength = 0;
+
+
 void CheckBoundary(Point &pt, int maxX, int maxY) {
 	pt.x = max(pt.x, 0);
 	pt.y = max(pt.y, 0);
 	pt.x = min(pt.x, maxX);
 	pt.y = min(pt.y, maxY);
 }
+
 
 double calculateAngleDifference(Point p1, Point p2, Point q1, Point q2) {
 	double vector1_x = p1.x - p2.x;
@@ -52,19 +53,27 @@ double calculateAngleDifference(Point p1, Point p2, Point q1, Point q2) {
 	double magnitude1 = sqrt(vector1_x * vector1_x + vector1_y * vector1_y);
 	double magnitude2 = sqrt(vector2_x * vector2_x + vector2_y * vector2_y);
 	double angleDifference = atan2(crossProduct, dotProduct);
-	//std::cout << "aangleDifferenceµÄÖµÊÇ: " << abs(angleDifference) << std::endl;
-	return abs(angleDifference);
 
+	return abs(angleDifference);
 }
 
 void ProcessImage(int j, const string &Path, seg &segment, Point &prevHead, Point &prevPharynx, Point &m_A, Point &m_B, bool switchht, double &angleSumHead, int partnum, float &segmentLength, int scaleimg) {
-	string name = Path + to_string(j) + ".jpg";
-	string name1 = Path + to_string(j - 1) + ".jpg";
+	string name = Path + to_string(j) + ".png";
+	string name1 = Path + to_string(j - 1) + ".png";
 
-	Mat I = imread(name, 0); 
+	Mat I = imread(name, 0);
 	Mat I1 = imread(name1, 0);
 	Mat I_color = imread(name, 1);
 
+	if (I.empty()) {
+		std::cerr << "æ— æ³•è¯»å–å›¾åƒ: " << name << std::endl;
+		return;
+	}
+
+
+	if (m_B == Point(0, 0)) {
+		m_B = Point(I.cols, I.rows);
+	}
 
 	int guassian = 1;
 	int threshold = 70;
@@ -94,21 +103,55 @@ void ProcessImage(int j, const string &Path, seg &segment, Point &prevHead, Poin
 
 	prevHead = segment.head;
 	prevPharynx = segment.center[12];
-
-	// ¼ÆËã50 / scaleimg²¢ÏòÉÏÈ¡Õû
-	int adjustValue = std::min(static_cast<int>(ceil(50.0 / scaleimg)) + 3, 50);
-
-	// ¸üÐÂ m_A ºÍ m_B µÄÆ«ÒÆ
-	m_A = Track.segment.topleft - Point(adjustValue , adjustValue );
-	m_B = Track.segment.botright + Point(adjustValue , adjustValue );
+	int boundary = static_cast<int>(std::floor(segment.Length / 5.0));
+	m_A = Track.segment.topleft - Point(boundary, boundary);
+	m_B = Track.segment.botright + Point(boundary, boundary);
 
 	int maxX = (I_color.cols - 1);
 	int maxY = (I_color.rows - 1);
 	CheckBoundary(m_A, maxX, maxY);
 	CheckBoundary(m_B, maxX, maxY);
 }
+
+
+int GetFileNum(const std::string& inPath, const std::vector<std::string>& formats)
+{
+	int fileNum = 0;
+	std::vector<std::string> pathVec;
+	std::queue<std::string> q;
+	q.push(inPath);
+	while (!q.empty())
+	{
+		std::string item = q.front(); q.pop();
+
+		struct _finddata_t fileinfo;
+		intptr_t handle = -1;
+		for (size_t i = 0; i < formats.size(); ++i) {
+			std::string path = item + "\\*" + formats[i];
+			handle = _findfirst(path.c_str(), &fileinfo);
+			if (handle == -1) continue;
+
+			do {
+				if (fileinfo.attrib & _A_SUBDIR)
+				{
+					if (strcmp(fileinfo.name, ".") == 0 || strcmp(fileinfo.name, "..") == 0) continue;
+					q.push(item + "\\" + fileinfo.name);
+				}
+				else
+				{
+					fileNum++;
+					pathVec.push_back(item + "\\" + fileinfo.name);
+				}
+			} while (_findnext(handle, &fileinfo) == 0);
+			_findclose(handle);
+		}
+	}
+	return fileNum;
+}
+
 Point saved_m_A;
 Point saved_m_B;
+
 int main() {
 	myTimer Timer;
 	seg segment;
@@ -117,38 +160,81 @@ int main() {
 	Point prevPharynx = Point(0, 0);
 	segment.head = head;
 	segment.tail = tail;
-	std::string Path = "D:\\VisualStudio2013\\VisualStudio2013\\Project\\BodyBendCount\\feature points extraction\\feature points extraction\\yaun\\copy\\";
+	std::string Path = "samples\\";
 	std::string LoadPath = Path + "analysis result\\";
-	std::string LoadPath1 = Path + "analysis results\\";
 
 	if (_access(LoadPath.c_str(), 0) == -1) {
 		_mkdir(LoadPath.c_str());
-	}
-	if (_access(LoadPath1.c_str(), 0) == -1) {
-		_mkdir(LoadPath1.c_str());
 	}
 
 	std::ofstream file(LoadPath + "Pharynx.csv");
 	std::ofstream file1(LoadPath + "PeakPoints.csv");
 	std::ofstream file2(LoadPath + "InflectionPoints.csv");
 	std::ofstream file3(LoadPath + "HeadTailReg.csv");
-	std::ofstream file4(LoadPath + "Center.csv");
+	std::ofstream file4(LoadPath + "SkeletonPoints.csv");
 	vector<std::string> files;
-	int FileNum = GetFileNum(Path, ".jpg");
+
+	
+	std::vector<std::string> formats = { ".png", ".jpg", ".jpeg", ".bmp", ".tiff" };
+	int FileNum = GetFileNum(Path, formats);
 
 	double angleSumHead = 0.0;
 	double angleSumHead1 = 0.0;
 	int partnum = 120;
 
-	float scaleimg = 1;
-	for (int j = 1; j <= FileNum / 10; ++j) {
-		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, 0, angleSumHead, partnum, segmentLength, scaleimg);
-		scaleimg = ceil(457.0f / segmentLength * 10) / 10.0f; 		
+	int scaleimg = 0;
+	{
+		
+		string firstImagePath = Path + "1.png";
+		
+		bool found = false;
+		for (size_t i = 0; i < formats.size(); ++i) {
+			string tempPath = Path + "1" + formats[i];
+			Mat I_temp = imread(tempPath, 0);
+			if (!I_temp.empty()) {
+				scaleimg = 1; // 	
+				m_B = Point(I_temp.cols, I_temp.rows);
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			std::cerr << "æœªæ‰¾åˆ°ç¬¬ä¸€å¼ å›¾åƒã€‚" << std::endl;
+			return -1;
+		}
+
+		Mat I = imread(Path + to_string(1) + ".png", 0);
+		if (I.empty()) {
+			std::cerr << "æ— æ³•è¯»å–å›¾åƒ: " << Path + "1.png" << std::endl;
+			return -1;
+		}
+		vector<Point> black_pixels;
+		for (int y = 0; y < I.rows; y++) {
+			for (int x = 0; x < I.cols; x++) {
+				if (I.at<uchar>(y, x) == 0) {
+					black_pixels.push_back(Point(x, y));
+				}
+			}
+		}
+		if (!black_pixels.empty()) {
+			RotatedRect minRect = minAreaRect(black_pixels);
+			float minRectArea = minRect.size.width * minRect.size.height;
+
+			float imageArea = I.rows * I.cols;
+			float areaRatio = minRectArea / imageArea;
+
+			scaleimg = static_cast<int>(floor(sqrt(0.06 / areaRatio)));
+			scaleimg = std::max(scaleimg, 1);
+		}
 	}
-	std::cout << "angleSumHeadµÄÖµÊÇ: " << angleSumHead << std::endl;
+
+	for (int j = 1; j <= FileNum / 10; ++j) {
+		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, false, angleSumHead, partnum, segmentLength, scaleimg);
+	}
+	std::cout << "angleSumHeadçš„å€¼æ˜¯: " << angleSumHead << std::endl;
 	double angleDifferenceHead = 0.0;
 	m_A = Point(0, 0);
-	m_B = Point(640, 480);
+	m_B = Point(0, 0); 
 	segment.tail = Point(0, 0);
 	segment.head = Point(0, 0);
 	segment.center[12] = Point(0, 0);
@@ -156,49 +242,50 @@ int main() {
 	prevPharynx = Point(0, 0);
 	segmentLength = 0;
 	totaLength = 0;
-	scaleimg = 1;
+
 	for (int j = 1; j <= FileNum / 10; ++j) {
-		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, 1, angleSumHead1, partnum, segmentLength, scaleimg);
-		scaleimg = ceil(457.0f / segmentLength * 10) / 10.0f; 
+		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, true, angleSumHead1, partnum, segmentLength, scaleimg);
+
 		if (j == 1) {
 			saved_m_A = m_A;
 			saved_m_B = m_B;
 		}
 	}
-	std::cout << "angleSumHead1µÄÖµÊÇ: " << angleSumHead1 << std::endl;
-	bool switchht = (angleSumHead > angleSumHead1) ? 0 : 1;
+	std::cout << "angleSumHead1çš„å€¼æ˜¯: " << angleSumHead1 << std::endl;
+	bool switchht = (angleSumHead > angleSumHead1) ? false : true;
 	std::cout << "switchht: " << switchht << std::endl;
 	totaLength = 0;
-	float scaleimg1 = ceil(457.0f / segmentLength * 10) / 10.0f;
-	//scaleimg = std::min(scaleimg, scaleimg1);
-	scaleimg = scaleimg1;
+	int scaleimg1 = static_cast<int>(ceil(200.0f / segmentLength));
+
+	scaleimg = std::min(scaleimg, scaleimg1);
 	m_A = saved_m_A;
 	m_B = saved_m_B;
 	segment.tail = Point(0, 0);
 	segment.head = Point(0, 0);
 
 	for (int j = 1; j <= FileNum + 1; ++j) {
-		bool currentSwitchht = (j == 1 && switchht == 1) ? 1 : 0;
-		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, 0, angleSumHead, partnum, segmentLength, scaleimg);
+		bool currentSwitchht = (j == 1 && switchht == true) ? true : false;
+		ProcessImage(j, Path, segment, prevHead, prevPharynx, m_A, m_B, switchht, angleSumHead, partnum, segmentLength, scaleimg);
 		prevHead = segment.head;
-		std::cout << "Æ½¾ù³¤¶È: " << segmentLength << std::endl;
-		Mat I_color = imread(Path + to_string(j) + ".jpg", 1);
+		std::cout << "å¹³å‡é•¿åº¦: " << segmentLength << std::endl;
+		Mat I_color = imread(Path + to_string(j) + ".png", 1);
+		if (I_color.empty()) {
+			std::cerr << "æ— æ³•è¯»å–å›¾åƒ: " << Path + to_string(j) + ".png" << std::endl;
+			continue;
+		}
 		vector<Point> cur;
 		RefineCurvature(&segment, cur);
-		DrawImage(segment, I_color, partnum, cur);
-
-		imwrite(Path + "analysis results\\" + to_string(j) + "_.jpg", I_color);
 
 		if (file) {
 			file << segment.center[12].x << "," << segment.center[12].y;
 			file3 << segment.head.x << "," << segment.head.y << "," << segment.tail.x << "," << segment.tail.y;
 		}
 		if (file4) {
-			for (const auto& center : segment.center) {
-				file4 << center.x << "," << center.y << ",";
+			for (size_t i = 0; i < segment.center.size(); ++i) {
+				file4 << segment.center[i].x << "," << segment.center[i].y << ",";
 			}
 		}
-		for (int i = 0; i < cur.size(); i++) {
+		for (size_t i = 0; i < cur.size(); i++) {
 			if (cur[i].x == 0) {
 				if (file2) {
 					file2 << segment.center[cur[i].y].x << "," << segment.center[cur[i].y].y << ",";
@@ -242,39 +329,6 @@ int main() {
 	return 0;
 }
 
-
-int GetFileNum(const std::string& inPath, std::string format)
-{
-	int fileNum = 0;
-	std::vector<std::string> pathVec;
-	std::queue<std::string> q;
-	q.push(inPath);
-	while (!q.empty())
-	{
-		std::string item = q.front(); q.pop();
-
-		std::string path = item + "\\*" + format;
-		struct _finddata_t fileinfo;
-		auto handle = _findfirst(path.c_str(), &fileinfo);
-		if (handle == -1) continue;
-
-		while (!_findnext(handle, &fileinfo))
-		{
-			if (fileinfo.attrib & _A_SUBDIR)
-			{
-				if (strcmp(fileinfo.name, ".") == 0 || strcmp(fileinfo.name, "..") == 0)continue;
-				q.push(item + "\\" + fileinfo.name);
-			}
-			else
-			{
-				fileNum++;
-				pathVec.push_back(item + "\\" + fileinfo.name);
-			}
-		}
-		_findclose(handle);
-	}
-	return fileNum;
-}
 
 
 int RefineCurvature(seg* segment, vector<Point>& result)
@@ -722,158 +776,4 @@ void Smooth1DSequence(const vector<double>* input, vector<double>& output, doubl
 
 }
 
-int DrawImage(seg& segment, Mat& I, int partnum, vector<Point> cur)
-{
-
-	float offsite = 0.2;
-	float extension = 1;
-
-	if (segment.center.size() == 0)
-	{
-		return 0;
-	}
-
-	vector<Point> newCenter, newContourA, newContourB;
-	for (int i = 0; i < segment.center.size(); i++)
-	{
-		newCenter.push_back(segment.center[i] - m_A);
-	}
-
-	for (int i = 0; i < segment.contourA.size(); i++)
-	{
-		newContourA.push_back(segment.contourA[i] - m_A);
-	}
-
-	for (int i = 0; i < segment.contourB.size(); i++)
-	{
-		newContourB.push_back(segment.contourB[i] - m_A);
-	}
-
-	Mat roi = I(cv::Rect(m_A, m_B));
-	Mat overlay;
-	roi.copyTo(overlay);
-
-	vector<Point> controlA, controlB;
-	for (int i = 0; i < partnum; i++)
-	{
-		if (i % 3 == 1)
-		{
-			controlA.push_back(Point(i, 0));
-			controlB.push_back(Point(i, 0));
-		}
-		else
-		{
-			controlA.push_back(Point(i, 255));
-			controlB.push_back(Point(i, 255));
-		}
-	}
-
-	vector<Point> SegContours;
-
-	Point Int, Ext;
-	vector<Point> SegCountours, BoundA, BoundB;
-	for (int i = 0; i < segment.Partnum; i++)
-	{
-		if (controlA[i].y != 0)
-		{
-			do{
-				Int = offsite*(newContourA[segment.segAB[i].x] - newCenter[i]) + newCenter[i];
-				SegCountours.push_back(Int);
-
-				Ext = extension*(newContourA[segment.segAB[i].x] - newCenter[i]) + newCenter[i];
-				BoundA.push_back(Ext);
-
-				i++;
-				if (i == segment.Partnum)
-					break;
-			} while (controlA[i].y == controlA[i - 1].y);
-
-			Int = offsite*(newContourA[segment.segAB[i].x] - newCenter[i]) + newCenter[i];
-			SegCountours.push_back(Int);
-
-			Ext = extension*(newContourA[segment.segAB[i].x] - newCenter[i]) + newCenter[i];
-			BoundA.push_back(Ext);
-			SegCountours.insert(SegCountours.end(), BoundA.rbegin(), BoundA.rend());
-
-
-			SegCountours.clear();
-			BoundA.clear();
-		}
-	}
-
-	for (int i = 0; i < segment.Partnum; i++)
-	{
-		if (controlB[i].y != 0)
-		{
-			do{
-				Int = offsite*(newContourB[segment.segAB[i].y] - newCenter[i]) + newCenter[i];
-				SegCountours.push_back(Int);
-
-				Ext = extension*(newContourB[segment.segAB[i].y] - newCenter[i]) + newCenter[i];
-
-				BoundB.push_back(Ext);
-				i++;
-				if (i == segment.Partnum)
-					break;
-			} while (controlB[i].y == controlB[i - 1].y);
-
-			Int = offsite*(newContourB[segment.segAB[i].y] - newCenter[i]) + newCenter[i];
-			SegCountours.push_back(Int);
-
-			Ext = extension*(newContourB[segment.segAB[i].y] - newCenter[i]) + newCenter[i];
-
-			BoundB.push_back(Ext);
-			SegCountours.insert(SegCountours.end(), BoundB.rbegin(), BoundB.rend());
-
-
-
-			SegCountours.clear();
-			BoundB.clear();
-		}
-	}
-
-
-	for (int i = 0; i < segment.contourA.size() - 1; i++)
-	{
-
-	}
-	for (int i = 0; i < segment.contourB.size() - 1; i++)
-	{
-
-	}
-
-
-
-	circle(overlay, newCenter[12], 0.5, Scalar(255, 0, 255), -1, 8, 0);
-
-	circle(overlay, segment.head - m_A, 0.5, Scalar(0, 0, 255), -1, 8, 0);
-
-
-	circle(overlay, segment.tail - m_A, 0.5, Scalar(0, 255, 0), -1, 8, 0);
-
-
-	for (int i = 0; i < cur.size(); i++)
-	{
-		if (cur[i].x == 0)
-		{
-
-			circle(overlay, segment.center[cur[i].y] - m_A, 0.5, Scalar(255, 255, 0), -1, 8, 0);
-		}
-		else if (cur[i].x == -1)
-		{
-
-			circle(overlay, segment.center[cur[i].y] - m_A, 0.5, Scalar(0, 255, 255), -1, 8, 0);
-		}
-		else
-		{
-
-			circle(overlay, segment.center[cur[i].y] - m_A, 0.5, Scalar(0, 255, 255), -1, 8, 0);
-		}
-	}
-
-	float alpha = 0.8;
-	addWeighted(overlay, alpha, roi, 1 - alpha, 0, roi);
-
-	return 1;
-}
 
