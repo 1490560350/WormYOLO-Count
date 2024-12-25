@@ -95,13 +95,8 @@ int WormTrack::PreProcess()
 
 	dilate(img, img, morphology_element);
 	erode(img, img, morphology_element);
-	int width = img.cols;
-	int height = img.rows;
-
-	// Êä³öÍ¼Ïñ³ß´ç
-	std::cout << "Image width: " << width << ", Image height: " << height << std::endl;
-	imshow(" Image", img);
-	waitKey(0);
+	//imshow(" Image", img);
+	//waitKey(0);
 	return 1;
 }
 
@@ -657,12 +652,12 @@ void WormTrack::FindHeadTail(vector<Point>* input, vector<Point>& leftside, vect
 			Mat combined_img;
 			hconcat(Orignal_img_bgr, Post_img_bgr, combined_img);
 			
-			cout << "\n³öÏÖ×Ô±ÕĞĞÎª£¬Í·Î²ÓĞ¿ÉÄÜÊ¶±ğ´íÎó¡£×ó²àµÄºìµãÎªÇ°Ò»Ö¡µÄÍ·²¿£¬ÓÒ²àµÄºìµãÊÇµ±Ç°Ö¡µÄÍ·²¿.ÇëÅĞ¶ÏÊÇ·ñ½»»»?ÊÇÇëÊäÈë¡°y¡±£¬·ñÔòÊäÈë¡°n¡± (y/n): ";
+			cout << "\nå‡ºç°è‡ªé—­è¡Œä¸ºï¼Œå¤´å°¾æœ‰å¯èƒ½è¯†åˆ«é”™è¯¯ã€‚å·¦ä¾§çš„çº¢ç‚¹ä¸ºå‰ä¸€å¸§çš„å¤´éƒ¨ï¼Œå³ä¾§çš„çº¢ç‚¹æ˜¯å½“å‰å¸§çš„å¤´éƒ¨.è¯·åˆ¤æ–­æ˜¯å¦äº¤æ¢?æ˜¯è¯·è¾“å…¥â€œyâ€ï¼Œå¦åˆ™è¾“å…¥â€œnâ€ (y/n): ";
 			imshow("Combined Image", combined_img);
 
-			waitKey(0); // µÈ´ıÓÃ»§°´¼üÒÔÈ·±£Í¼ÏñÏÔÊ¾
+			waitKey(0); // ç­‰å¾…ç”¨æˆ·æŒ‰é”®ä»¥ç¡®ä¿å›¾åƒæ˜¾ç¤º
 			char response;
-			cin >> response; // Ê¹ÓÃ cin ¶ÁÈ¡ÓÃ»§ÊäÈë
+			cin >> response; // ä½¿ç”¨ cin è¯»å–ç”¨æˆ·è¾“å…¥
 
 			if (response == 'y' || response == 'Y')
 			{
@@ -679,7 +674,7 @@ void WormTrack::FindHeadTail(vector<Point>* input, vector<Point>& leftside, vect
 			}
 
 			destroyWindow("Combined Image");
-			std::cout << "\n\nÕıÔÚ¼ÆËãÌØÕ÷µãÖĞ£¬ÇëÉÔµÈ..." << std::endl;
+			std::cout << "\n\næ­£åœ¨è®¡ç®—ç‰¹å¾ç‚¹ä¸­ï¼Œè¯·ç¨ç­‰..." << std::endl;
 		}
 		else
 		{
