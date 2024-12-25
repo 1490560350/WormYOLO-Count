@@ -351,5 +351,4 @@ while cap.isOpened():
 # ------------------------------
 cap.release()
 out.release()
-cv2.destroyAllWindows()
 print(f"追踪结果已保存到 {output_dir}文件夹")
