@@ -18,7 +18,7 @@
 
 4. Running the tracker after cloning the WormYOLO repository:
    
-   `python train.py`  # Run the training script; you can configure the dataset and whether to load pre-trained weights in the train.py file. Note: It is necessary to modify the actual path of the dataset in the `WormYOLO/ultralytics/cfg/datasets/data.yaml` file.
+   `python train.py`  # Run the training script; you can configure the dataset and whether to load pre-trained weights in the train.py file.     Note: It is necessary to modify the actual path of the dataset in the `WormYOLO/ultralytics/cfg/datasets/data.yaml` file.
    
    `python track_singleworm.py/track_multworms.py`  # Run the tracking script
 
