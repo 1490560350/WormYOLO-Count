@@ -18,12 +18,11 @@
 
 4. Running the tracker after cloning the WormYOLO repository:
    
-   `python train.py`  # Run the training script; you can configure the dataset and whether to load pretrained weights in the `train.py` file.
+   `python train.py`  # Run the training script; you can configure the dataset and whether to load pre-trained weights in the train.py file. Note: It is necessary to modify the actual path of the dataset in the `WormYOLO/ultralytics/cfg/datasets/data.yaml` file.
    
-   `python prediction.py`  # Run the prediction script
-   
-   `python tracking.py`  # Run the tracking script
+   `python track_singleworm.py/track_multworms.py`  # Run the tracking script
 
+WormYOLO is based on the YOLO model. For more details, please visit: https://github.com/ultralytics/ultralytics. For the TrackEval code and usage instructions, please visit: https://github.com/JonathonLuiten/TrackEval.
 
 # Feature points extraction
 ### Steps
